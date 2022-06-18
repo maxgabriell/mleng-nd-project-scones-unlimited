@@ -33,14 +33,14 @@ def lambda_handler_serializerimageData(event, context):
 
 
 # Fill this in with the name of your deployed model
-ENDPOINT = "image-classification-2022-06-12-17-39-54-093"
+ENDPOINT = "image-classification-2022-06-18-01-13-56-690"
 
+def lambda_handler(event, context):
 
-def lambda_handler_ClassificationInference(event, context):
     # Decode the image data
     image = base64.b64decode(event['body']['image_data'])
     runtime = boto3.client('runtime.sagemaker')
-
+    
     inferences = runtime.invoke_endpoint(
         EndpointName=ENDPOINT,
         ContentType='image/png',
@@ -48,7 +48,7 @@ def lambda_handler_ClassificationInference(event, context):
 
     # We return the data back to the Step Function
     event['body']["inferences"] = inferences['Body'].read().decode('utf-8')
-
+    
     return {
         'statusCode': 200,
         'body': event['body']
