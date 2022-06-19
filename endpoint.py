@@ -3,6 +3,15 @@ import sagemaker
 from sagemaker.model_monitor import DataCaptureConfig
 
 def endpoint(bucket,model_data,role,region):
+    """A function that deploy a trained model as an endpoint
+
+                        Arguments:
+                        bucket -- s3 bucket
+                        model_data -- s3 path for the trained model
+                        role -- sagemaker role
+                        region -- sagemaker region
+
+                        """
     image_uri = sagemaker.image_uris.retrieve('image-classification',region,version='latest')
     img_classifier_model = sagemaker.Model(image_uri = image_uri,
                                  model_data = model_data,

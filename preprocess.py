@@ -28,6 +28,15 @@ def extract_cifar_data(url, filename="cifar.tar.gz"):
     return
 
 def transform_data(filename = "cifar.tar.gz"):
+    """A function for transform the downloaded data into workable format
+
+    Arguments:
+    filename -- name of the file downloaded
+
+    Returns:
+    Three datasets containing training, test and meta data
+
+    """
     #Transform data from gzip into usefull format
     with tarfile.open(filename, "r:gz") as tar:
         tar.extractall()
@@ -47,6 +56,19 @@ def transform_data(filename = "cifar.tar.gz"):
     return dataset_meta,dataset_test,dataset_train
 
 def get_train_test_dataframes(labels_to_filter,train,test,meta):
+    """A function that construct dataframes with the files to be used for training. Those files
+        represent the images figures to be classified (e.g : bikes, cars, cows, etc..)
+
+        Arguments:
+        labels_to_filter -- labels that should be classified by our model
+        train -- pickle containing all train files
+        test -- pickle containing all test files
+        meta -- pickle containing metadata
+
+        Returns:
+        train and test datasets with files names.
+
+        """
     try :
         labels = set([train[b'fine_labels'][n] for n in range(len(train[b'fine_labels'])) if meta[b'fine_label_names'][train[b'fine_labels'][n]] in labels_to_filter])
         print('Labels finded!\n{}'.format(dict(zip(labels_to_filter,labels))))
@@ -83,7 +105,16 @@ def get_train_test_dataframes(labels_to_filter,train,test,meta):
     return df_train,df_test
 
 def save_images(filename,idx,dir_,df,df_meta):
-    
+    """A function that stack images and saves them into local directory
+
+            Arguments:
+            filename -- name of the file
+            idx -- position of the file in the source file
+            dir_ -- name of the directory to be created
+            df -- dataset containing all the images file names
+            df_meta -- meta dataset
+
+            """
     #Create temp directories for train and test data
     trainpath = r'./train/' 
     if not os.path.exists(trainpath):
@@ -112,6 +143,12 @@ def save_images(filename,idx,dir_,df,df_meta):
     return print({filename : df_meta[b'fine_label_names'][df[b'fine_labels'][idx]]})
 
 def send_to_s3(bucket,):
+    """A function that sends images from local directory to s3
+
+                Arguments:
+                bucket -- s3 bucket
+
+                """
     session = sagemaker.Session()
     os.environ["DEFAULT_S3_BUCKET"] = bucket
     os.system("aws s3 sync ./train s3://${DEFAULT_S3_BUCKET}/train/")
@@ -126,6 +163,14 @@ def send_to_s3(bucket,):
     print("RoleArn: {}".format(role))
     
 def to_metadata_file(df, prefix,bucket):
+    """A function that creates the metadata file required by the image classifier model
+
+                    Arguments:
+                    df -- train or test dataset
+                    prefix -- prefix on s3
+                    bucket -- bucket on s3
+
+                    """
     #Create folder for metadata
     metadatapath = r'./metadata/' 
     if not os.path.exists(metadatapath):
@@ -137,21 +182,3 @@ def to_metadata_file(df, prefix,bucket):
     # Upload files
     boto3.Session().resource('s3').Bucket(
         bucket).Object(f'{prefix}.lst').upload_file(f"./metadata/{prefix}.lst")
-
-# labels_to_filter = [b'bicycle',b'motorcycle']
-# bucket = 'project-scones-unlimited'
-
-# #Extract data
-# extract_cifar_data("https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz")     
-# #Tranform extracted data
-# dataset_meta,dataset_test,dataset_train = transform_data()
-# #Get train and test data for informed labels
-# df_train,df_test = get_train_test_dataframes(labels_to_filter,dataset_train,dataset_test,dataset_meta)
-# #Extract images and save into train and test local directory
-# df_train.apply(lambda x : save_images(x['filenames'],x['row'],'train'),axis=1)
-# df_test.apply(lambda x : save_images(x['filenames'],x['row'],'test'),axis=1)
-# #Send images to s3
-# send_to_s3(bucket)
-# #Sending matadata for training the image classifier model
-# to_metadata_file(df_train.copy(), "train")
-# to_metadata_file(df_test.copy(), "test")
