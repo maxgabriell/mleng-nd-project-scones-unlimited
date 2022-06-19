@@ -49,8 +49,7 @@ with each other by a step function. Those lambda functions are responsible for :
 1. Serialize data from s3 according to the received file name (key)
 2. Perform inference
 3. Filter inferences above defined threshold. 
-
-![img.png](Images/img.png)
+![step_function.png](Images/step_func.png)
 
 The input, to be provided by our client system (after sending the file to the correct s3 bucket) 
 should be a json such as :
