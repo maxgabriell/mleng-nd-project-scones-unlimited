@@ -60,35 +60,35 @@ while time.time() < t_end:
     time.sleep(seconds_to_sleep)
 
 # S3Downloader.download(data_path, "captured_data")
-
+#
 # # List the file names we downloaded
 # file_handles = os.listdir("./captured_data")
-
+#
 # # Dump all the data into an array
 # json_data = []
 # for jsonl in file_handles:
 #     with jsonlines.open(f"./captured_data/{jsonl}") as f:
 #         json_data.append(f.read())
-        
+#
 # # Populate the data for the x and y axis
 # x = []
 # y = []
 # for obj in json_data:
 #     inference, timestamp = simple_getter(obj)
-    
+#
 #     y.append(max(inference))
 #     x.append(timestamp)
-
+#
 # # Plot the data
 # plt.scatter(x, y, c=['r' if k<.94 else 'b' for k in y ])
 # plt.axhline(y=0.9, color='g', linestyle='--')
 # plt.ylim(bottom=.88)
-
+#
 # # Add labels
 # plt.ylabel("Confidence")
 # plt.suptitle("Observed Recent Inferences", size=14)
 # plt.title("Pictured with confidence threshold for production use", size=10)
-
+#
 # # Give it some pizzaz!
 # plt.style.use("Solarize_Light2")
 # plt.gcf().autofmt_xdate()
