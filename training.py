@@ -4,6 +4,14 @@ from sagemaker.debugger import Rule, rule_configs
 from sagemaker.session import TrainingInput
 
 def train(bucket,s3_output,role):
+    """A function that trains a image classifier model and saves it in s3
+
+                    Arguments:
+                    bucket -- s3 bucket
+                    s3_output -- s3 path for the trained model
+                    role -- sagemaker role
+
+                    """
     # Use the image_uris function to retrieve the latest 'image-classification' image 
     algo_image = sagemaker.image_uris.retrieve('image-classification',region,version='latest')
 
