@@ -53,7 +53,7 @@ with each other by a step function. Those lambda functions are responsible for :
 
 The configured workflow also have been configured to appoint an error
 when the prediction did not pass a quality threshold :
-![step_function.png](Images/img_State_machine_fail.png)
+![step_function.png](Images/img_state_machine_fail.png)
 
 The input, to be provided by our client system (after sending the file to the correct s3 bucket) 
 should be a json such as :
