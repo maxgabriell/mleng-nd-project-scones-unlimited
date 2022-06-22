@@ -25,9 +25,10 @@ def endpoint(bucket,model_data,role,region):
     deployment = img_classifier_model.deploy(
         initial_instance_count=1,
         instance_type="ml.m5.xlarge",
+        endpoint_name='scones-unlimited-endpoint',
         data_capture_config=data_capture_config
     )
     
-    endpoint = deployment.endpoint_name
+    endpoint = img_classifier_model.endpoint_name
     print('Endpoint created with name : {}'.format(endpoint))
     return endpoint
