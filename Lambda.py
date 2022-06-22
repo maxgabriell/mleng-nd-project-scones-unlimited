@@ -33,7 +33,7 @@ def lambda_handler_serializerimageData(event, context):
 
 
 # Fill this in with the name of your deployed model
-ENDPOINT = "image-classification-2022-06-18-01-13-56-690"
+ENDPOINT = "scones-unlimited-endpoint"
 
 def lambda_handler(event, context):
 

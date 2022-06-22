@@ -56,7 +56,7 @@ while time.time() < t_end:
         input=generate_test_case(bucket) # Input needs to be at least empty brackets. 
     )
     print('FILE SUBMITED TO STATE MACHINE : {}'.format(state_machine_exec))
-    seconds_to_sleep = abs(round(random.gauss(15, 5)))
+    seconds_to_sleep = abs(round(random.gauss(5, 5)))
     time.sleep(seconds_to_sleep)
 
 # S3Downloader.download(data_path, "captured_data")

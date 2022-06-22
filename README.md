@@ -51,6 +51,10 @@ with each other by a step function. Those lambda functions are responsible for :
 3. Filter inferences above defined threshold. 
 ![step_function.png](Images/step_func.png)
 
+The configured workflow also have been configured to appoint an error
+when the prediction did not pass a quality threshold :
+![step_function.png](Images/img_State_machine_fail.png)
+
 The input, to be provided by our client system (after sending the file to the correct s3 bucket) 
 should be a json such as :
 
@@ -130,4 +134,10 @@ used in the step-function is :
 ### Monitoring
 Our endpoint was configured to send all data processed to s3 bucket for further
 monitoring. By working that data, we can construct visualizations of how our model has performed :
-![img_2.png](Images/img_2.png)
+![img_2.png](Images/image_monitoring_2.png). 
+We can also check for the inferences in for each predicted class : 
+![img_2.png](Images/image_monitoring.png).
+
+We can see that our model is very confident in predicting motorcycles
+bu it is not very confident in predicting bicycles. This could be a issue
+that can be resolved by better training data or better models (pre-trained NN, for instance)
